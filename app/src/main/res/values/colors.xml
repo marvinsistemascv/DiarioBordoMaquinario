@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="purple_200">#145602</color>
+    <color name="purple_500">#145602</color>
+    <color name="purple_700">#145602</color>
+    <color name="teal_200">#043400</color>
+    <color name="teal_700">#FF018786</color>
+    <color name="black">#FF000000</color>
+    <color name="white">#FFFFFFFF</color>
+
+    <color name="zxing_viewfinder_mask">#88000000</color>  <!-- fundo escuro -->
+    <color name="zxing_viewfinder_laser">#00FFFFFF</color> <!-- sem laser (transparente) -->
+    <color name="zxing_possible_result_points">#00FFFFFF</color>
+</resources>

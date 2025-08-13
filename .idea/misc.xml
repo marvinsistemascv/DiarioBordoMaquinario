@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="DesignSurface">
+    <option name="filePathToZoomLevelMap">
+      <map>
+        <entry key="..\:/Projetos Android/DiarioBordoMaquinario/app/src/main/res/drawable-v24/divider_line.xml" value="0.25677083333333334" />
+        <entry key="..\:/Projetos Android/DiarioBordoMaquinario/app/src/main/res/drawable-v24/fundo_app.xml" value="0.17395833333333333" />
+        <entry key="..\:/Projetos Android/DiarioBordoMaquinario/app/src/main/res/drawable-v24/ic_launcher_foreground.xml" value="0.26145833333333335" />
+        <entry key="..\:/Projetos Android/DiarioBordoMaquinario/app/src/main/res/drawable/background_item_borda_redonda_laranja.xml" value="0.3172343670564311" />
+        <entry key="..\:/Projetos Android/DiarioBordoMaquinario/app/src/main/res/drawable/borda_branca.xml" value="0.2703125" />
+        <entry key="..\:/Projetos Android/DiarioBordoMaquinario/app/src/main/res/drawable/botao_bonito.xml" value="0.3172343670564311" />
+        <entry key="..\:/Projetos Android/DiarioBordoMaquinario/app/src/main/res/drawable/menu_background.xml" value="0.2203125" />
+        <entry key="..\:/Projetos Android/DiarioBordoMaquinario/app/src/main/res/layout/activity_main.xml" value="0.25" />
+        <entry key="..\:/Projetos Android/DiarioBordoMaquinario/app/src/main/res/layout/activity_qr_scanner.xml" value="0.1953125" />
+        <entry key="..\:/Projetos Android/DiarioBordoMaquinario/app/src/main/res/layout/dialog_cad_encarregado.xml" value="0.3" />
+        <entry key="..\:/Projetos Android/DiarioBordoMaquinario/app/src/main/res/layout/dialog_finalizar_registro.xml" value="0.5" />
+        <entry key="..\:/Projetos Android/DiarioBordoMaquinario/app/src/main/res/layout/dialog_lista_registros.xml" value="0.21770833333333334" />
+        <entry key="..\:/Projetos Android/DiarioBordoMaquinario/app/src/main/res/layout/dialog_nova_viagem.xml" value="0.25" />
+        <entry key="..\:/Projetos Android/DiarioBordoMaquinario/app/src/main/res/menu/menu_main.xml" value="0.23177083333333334" />
+      </map>
+    </option>
+  </component>
+  <component name="ProjectRootManager" version="2" languageLevel="JDK_11" default="true" project-jdk-name="Android Studio default JDK" project-jdk-type="JavaSDK">
+    <output url="file://$PROJECT_DIR$/build/classes" />
+  </component>
+  <component name="ProjectType">
+    <option name="id" value="Android" />
+  </component>
+</project>

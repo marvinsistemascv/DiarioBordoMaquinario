@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/menu_option_1"
+        android:icon="@drawable/divider_line"
+        android:title="Encarregado"/>
+
+    <item
+        android:id="@+id/menu_option_2"
+        android:icon="@drawable/divider_line"
+        android:title="Em curso"/>
+
+    <item
+        android:id="@+id/menu_option_3"
+        android:icon="@drawable/divider_line"
+        android:title="Sincronizar"/>
+    <item
+        android:id="@+id/menu_option_4"
+        android:icon="@drawable/divider_line"
+        android:title="Ressincronizar"/>
+
+    <item
+        android:id="@+id/menu_option_5"
+        android:icon="@drawable/divider_line"
+        android:title="QRCode"/>
+</menu>

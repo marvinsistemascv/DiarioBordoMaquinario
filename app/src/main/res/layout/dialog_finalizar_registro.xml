@@ -1,0 +1,56 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:padding="16dp"
+    android:orientation="vertical"
+    android:background="@drawable/background_item_borda_redonda_laranja"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <TextView
+        android:id="@+id/dialogTituloFinalizarRegistro"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="12dp"
+        android:gravity="center"
+        android:text="Finalizar Registro"
+        android:textSize="18sp"
+        android:textStyle="bold"/>
+
+    <EditText
+        android:id="@+id/inputHorimetro"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Horímetro"
+        android:inputType="numberDecimal"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginTop="16dp"
+        android:gravity="end">
+
+<!--        <Button-->
+<!--            android:id="@+id/btnCancelarRegistro"-->
+<!--            android:layout_width="0dp"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:layout_weight="1"-->
+<!--            android:text="Cancelar"-->
+<!--            android:textAllCaps="false"-->
+<!--            android:textColor="@android:color/white"-->
+<!--            android:backgroundTint="#9E9E9E"-->
+<!--            android:layout_marginEnd="8dp"-->
+<!--            android:background="@drawable/botao_bonito"/>-->
+
+        <Button
+            android:id="@+id/btnEncerrarRegistro"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="Confirmar"
+            android:textAllCaps="false"
+            android:textColor="@android:color/white"
+            android:backgroundTint="#4CAF50"
+            android:background="@drawable/botao_bonito"/>
+
+    </LinearLayout>
+</LinearLayout>
