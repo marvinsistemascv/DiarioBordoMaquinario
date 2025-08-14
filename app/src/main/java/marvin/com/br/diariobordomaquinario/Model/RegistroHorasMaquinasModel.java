@@ -22,5 +22,6 @@ public class RegistroHorasMaquinasModel {
     public String operador;
     public String encarregado;
     public String sit;
+    public String local_obra;
 
 }

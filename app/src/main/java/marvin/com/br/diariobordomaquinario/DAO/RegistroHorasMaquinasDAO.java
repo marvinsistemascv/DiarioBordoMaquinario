@@ -5,6 +5,7 @@ import androidx.room.Dao;
 import androidx.room.Insert;
 import androidx.room.OnConflictStrategy;
 import androidx.room.Query;
+import androidx.room.Update;
 
 import java.util.List;
 import marvin.com.br.diariobordomaquinario.Model.RegistroHorasMaquinasModel;
@@ -32,5 +33,8 @@ public interface RegistroHorasMaquinasDAO {
 
     @Query("UPDATE registro_horas_maquinas_model SET sit = :novoStatus WHERE id = :id")
     void atualizar_status(String novoStatus, int id);
+
+    @Update
+    void updateAll(List<RegistroHorasMaquinasModel> registros);
 
 }

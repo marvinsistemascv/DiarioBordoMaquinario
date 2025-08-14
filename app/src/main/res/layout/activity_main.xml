@@ -15,7 +15,6 @@
         android:id="@+id/btn_brasao"
         android:layout_width="238dp"
         android:layout_height="231dp"
-        android:layout_marginBottom="168dp"
         android:background="@drawable/borda_branca"
         android:clickable="true"
         android:focusable="true"
@@ -23,35 +22,51 @@
         android:padding="4dp"
         app:layout_constraintBottom_toTopOf="@+id/txtVersao"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.497"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.913"
         app:srcCompat="@drawable/qrcode_logo_funcional" />
 
     <TextView
         android:id="@+id/txtVersao"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginBottom="40dp"
         android:gravity="center"
+        android:text="versão"
         android:textColor="#FFFFFF"
         android:textStyle="bold"
         app:layout_constraintBottom_toTopOf="@+id/txt_nome_encarregado"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent" />
 
     <TextView
         android:id="@+id/txt_nome_encarregado"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="36dp"
         android:gravity="center"
+        android:text="Encarregado"
         android:textColor="#FFFFFF"
         android:textStyle="bold"
-        android:text="encarregado"
         app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/txt_local_obra"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintHorizontal_weight="1"
+        android:padding="8dp" />
+
+    <TextView
+        android:id="@+id/txt_local_obra"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:text="Local Obra"
+        android:textColor="#FFFFFF"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/txt_nome_encarregado"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.498"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintHorizontal_weight="1"
+        android:padding="8dp" />
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

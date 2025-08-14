@@ -12,4 +12,5 @@ public class EncarregadoModel {
     @PrimaryKey(autoGenerate = true)
     public Integer id;
     public String nome;
+    public String local_obra;
 }

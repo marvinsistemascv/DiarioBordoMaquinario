@@ -33,6 +33,7 @@ import androidx.room.Room;
 import java.util.List;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
+import java.util.concurrent.Future;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -54,8 +55,8 @@ public class MainActivity extends AppCompatActivity {
 
     private TextView txtVersao;
     private TextView txtEncarregado;
+    private TextView txtLocalObra;
     private AppDatabase db;
-    public String encarregado;
     private AlertDialog dialog;                         // <— diálogo atual
     private final ExecutorService io = Executors.newSingleThreadExecutor();
     private boolean pediuCadastroEncarregado = false;   // evita abrir 2x
@@ -90,6 +91,7 @@ public class MainActivity extends AppCompatActivity {
 
         txtVersao = findViewById(R.id.txtVersao);
         txtEncarregado = findViewById(R.id.txt_nome_encarregado);
+        txtLocalObra = findViewById(R.id.txt_local_obra);
 
         ImageView btn_brasao = findViewById(R.id.btn_brasao);
 
@@ -128,8 +130,8 @@ public class MainActivity extends AppCompatActivity {
                 if (isFinishing() || isDestroyed()) return;
 
                 if (finalE != null) {
-                    encarregado = finalE.nome;
                     txtEncarregado.setText(finalE.nome);
+                    txtLocalObra.setText(finalE.local_obra);
                     // segue o fluxo normal da Main sem finalizar aqui
                 } else if (!pediuCadastroEncarregado) {
                     pediuCadastroEncarregado = true;
@@ -146,8 +148,15 @@ public class MainActivity extends AppCompatActivity {
                 .inflate(R.layout.dialog_cad_encarregado, null);
 
         EditText inputNome = viewInflated.findViewById(R.id.inputNomeEncarregado);
+        EditText inputLocal = viewInflated.findViewById(R.id.inputLocalEncarregado);
         Button btnAdicionar = viewInflated.findViewById(R.id.btnGravaEncarregado);
         Button btnCancelar = viewInflated.findViewById(R.id.btnCancelarEncarregado);
+
+        EncarregadoModel encarregado = pegar_encarregado();
+        if (encarregado != null) {
+            inputNome.setText(encarregado.nome);
+            inputLocal.setText(encarregado.local_obra);
+        }
 
         dialog = new AlertDialog.Builder(this)
                 .setView(viewInflated)
@@ -168,8 +177,13 @@ public class MainActivity extends AppCompatActivity {
 
         btnAdicionar.setOnClickListener(v -> {
             String nome = inputNome.getText().toString().trim();
+            String local = inputLocal.getText().toString().trim();
             if (nome.isEmpty()) {
                 inputNome.setError("Informe o nome");
+                return;
+            }
+            if (local.isEmpty()) {
+                inputLocal.setError("informe o local da obra");
                 return;
             }
 
@@ -180,12 +194,14 @@ public class MainActivity extends AppCompatActivity {
                 try {
                     EncarregadoModel e = new EncarregadoModel();
                     e.nome = nome;
+                    e.local_obra = local;
                     e.id = 1;
                     db.encarregadoDAO().inserir(e);
 
                     runOnUiThread(() -> {
                         if (dialog != null && dialog.isShowing()) dialog.dismiss();
                         txtEncarregado.setText(e.nome);
+                        txtLocalObra.setText(e.local_obra);
                         // se sua intenção é sair da Main após cadastrar, finalize AQUI (seguro):
                         // if (!isFinishing() && !isDestroyed()) finish();
                     });
@@ -313,6 +329,7 @@ public class MainActivity extends AppCompatActivity {
                     ultima.qtd_horas_inicio = 0.0;
                     ultima.qtd_horas_final = 0.0;
                     ultima.sit = "nulo";
+                    ultima.cod_maquina = cod_veiculo;
 
                 }
             } catch (Exception ex) {
@@ -368,6 +385,10 @@ public class MainActivity extends AppCompatActivity {
                 inputOperador.setError("Informe a operador");
                 return;
             }
+            if (horimentro.isEmpty()) {
+                inputQtdHoras.setError("Informe o horímetro");
+                return;
+            }
 
             btnAdicionar.setEnabled(false);
             // btnCancelar.setEnabled(false);
@@ -392,9 +413,9 @@ public class MainActivity extends AppCompatActivity {
 
                     runOnUiThread(() -> {
                         dialog.dismiss();
-                       // if (dialog.isShowing()) dialog.dismiss();
+                        // if (dialog.isShowing()) dialog.dismiss();
                         showToast("Registro gravado");
-                       // if (!isFinishing() && !isDestroyed()) finish();
+                        // if (!isFinishing() && !isDestroyed()) finish();
                     });
                 } catch (Exception ex) {
                     runOnUiThread(() -> {
@@ -477,12 +498,13 @@ public class MainActivity extends AppCompatActivity {
             io.execute(() -> {
                 try {
                     Double qtd_horas = horimetro_final - inicio;
-
+                    EncarregadoModel encarregado = pegar_encarregado();
                     r.sit = "finalizado";
                     r.data_termino = DataHora.data_atual();
                     r.hora_termino = DataHora.pegar_hora();
                     r.qtd_horas_final = horimetro_final;
-                    r.encarregado = encarregado;
+                    r.encarregado = encarregado.nome;
+                    r.local_obra = encarregado.local_obra;
 
                     if (r.total_horas_trabalhadas == null) {
                         r.total_horas_trabalhadas = 0.0;
@@ -596,74 +618,71 @@ public class MainActivity extends AppCompatActivity {
         }).start();
     }
 
-
     private void sincronizar_cadastros() {
-
+        // Usar ProgressBar/AlertDialog custom no lugar de ProgressDialog
         ProgressDialog progressDialog = new ProgressDialog(this);
         progressDialog.setMessage("Enviando dados... Aguarde.");
         progressDialog.setCancelable(false);
         progressDialog.show();
 
         new Thread(() -> {
-
             List<RegistroHorasMaquinasModel> cadastros = db.registroHorasMaquinasDao().pegar_registros_finalizados();
 
             if (cadastros == null || cadastros.isEmpty()) {
                 runOnUiThread(() -> {
                     progressDialog.dismiss();
-                    androidx.appcompat.app.AlertDialog.Builder builder = new androidx.appcompat.app.AlertDialog.Builder(MainActivity.this);
-                    builder.setTitle("OPS");
-                    builder.setMessage("não há registros para sincronizar!");
-                    builder.setIcon(R.drawable.ic_atencao);
-                    builder.setPositiveButton("OK", null);
-                    builder.create().show();
+                    new androidx.appcompat.app.AlertDialog.Builder(MainActivity.this)
+                            .setTitle("OPS")
+                            .setMessage("Não há registros para sincronizar!")
+                            .setIcon(R.drawable.ic_atencao)
+                            .setPositiveButton("OK", null)
+                            .create().show();
                 });
-                return; // encerra o thread aqui
+                return;
             }
 
             SincronizacaoRequest request = new SincronizacaoRequest(cadastros);
-
-            Call<ResponseBody> call = service.sincronizarTudo(request);
-            call.enqueue(new Callback<ResponseBody>() {
+            service.sincronizarTudo(request).enqueue(new Callback<ResponseBody>() {
                 @Override
                 public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
-                    runOnUiThread(() -> {
-                        progressDialog.dismiss();
-                        if (response.isSuccessful()) {
-                            new Thread(() -> {
-                                // Atualiza o status dos cadastros
-                                for (RegistroHorasMaquinasModel c : cadastros) {
-                                    c.sit = "sincronizado";
-                                    db.registroHorasMaquinasDao().inserir(c);
-                                }
-                            }).start();
+                    progressDialog.dismiss();
 
-                            runOnUiThread(() -> {
-                                progressDialog.dismiss();
-                                new android.app.AlertDialog.Builder(MainActivity.this)
-                                        .setTitle("Sucesso")
-                                        .setMessage("Os dados foram sincronizados com sucesso!")
-                                        .setIcon(R.drawable.ic_success)
-                                        .setPositiveButton("OK", null)
-                                        .create().show();
-                            });
-                        } else {
-                            androidx.appcompat.app.AlertDialog.Builder builder = new androidx.appcompat.app.AlertDialog.Builder(MainActivity.this);
-                            builder.setTitle("ERRO");
-                            builder.setMessage(response.code());
-                            builder.setIcon(R.drawable.ic_erro);
-                            builder.setPositiveButton("OK", null);
-                            builder.create().show();
+                    if (response.isSuccessful()) {
+                        // Atualiza todos de uma vez
+                        new Thread(() -> {
+                            for (RegistroHorasMaquinasModel c : cadastros) {
+                                c.sit = "sincronizado";
+                            }
+                            db.registroHorasMaquinasDao().updateAll(cadastros);
+                        }).start();
+
+                        new android.app.AlertDialog.Builder(MainActivity.this)
+                                .setTitle("Sucesso")
+                                .setMessage("Foram sincronizados " + cadastros.size() + " registros!")
+                                .setIcon(R.drawable.ic_success)
+                                .setPositiveButton("OK", null)
+                                .create().show();
+                    } else {
+                        try {
+                            String erroMsg = response.errorBody() != null
+                                    ? response.errorBody().string()
+                                    : "Erro desconhecido";
+                            new androidx.appcompat.app.AlertDialog.Builder(MainActivity.this)
+                                    .setTitle("ERRO")
+                                    .setMessage("Falha: " + erroMsg)
+                                    .setIcon(R.drawable.ic_erro)
+                                    .setPositiveButton("OK", null)
+                                    .create().show();
+                        } catch (Exception e) {
+                            showToastErro("Erro ao ler resposta: " + e.getMessage());
                         }
-                    });
+                    }
                 }
 
                 @Override
                 public void onFailure(Call<ResponseBody> call, Throwable t) {
-                    runOnUiThread(() -> {
-                        progressDialog.dismiss();
-                        showToastErro(t.getMessage());
-                    });
+                    progressDialog.dismiss();
+                    showToastErro("Falha na comunicação: " + t.getMessage());
                 }
             });
         }).start();
@@ -693,4 +712,22 @@ public class MainActivity extends AppCompatActivity {
             }
         }).start();
     }
+
+    private EncarregadoModel pegar_encarregado() {
+        ExecutorService executor = Executors.newSingleThreadExecutor();
+
+        Future<EncarregadoModel> future = executor.submit(() ->
+                db.encarregadoDAO().pegar_encarregado()
+        );
+
+        try {
+            return future.get(); // aguarda até ter o resultado
+        } catch (Exception e) {
+            showToastErro("Erro ao buscar encarregado" + e);
+            return null;
+        } finally {
+            executor.shutdown();
+        }
+    }
+
 }
