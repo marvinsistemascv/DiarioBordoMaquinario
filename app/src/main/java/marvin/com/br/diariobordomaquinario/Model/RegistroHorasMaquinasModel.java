@@ -13,6 +13,7 @@ public class RegistroHorasMaquinasModel {
     public Integer cod_maquina;
     public Double qtd_horas_inicio;
     public Double qtd_horas_final;
+    public Double total_horas_trabalhadas;
     public String data_inicio;
     public String hora_inicio;
     public String data_termino;

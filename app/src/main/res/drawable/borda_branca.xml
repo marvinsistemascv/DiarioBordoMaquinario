@@ -4,11 +4,12 @@
     <!-- Cor de fundo transparente -->
     <solid android:color="@android:color/transparent" />
 
-    <!-- Borda branca -->
+    <!-- Borda -->
     <stroke
-        android:width="3dp"
-        android:color="@android:color/white" />
+        android:width="9dp"
+        android:color="@color/laranja" />
 
     <!-- Cantos arredondados (opcional) -->
-    <corners android:radius="8dp" />
+    <corners android:radius="10dp" />
+
 </shape>

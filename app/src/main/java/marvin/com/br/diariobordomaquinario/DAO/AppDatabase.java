@@ -6,7 +6,7 @@ import marvin.com.br.diariobordomaquinario.Model.EncarregadoModel;
 import marvin.com.br.diariobordomaquinario.Model.RegistroHorasMaquinasModel;
 
 
-@Database(entities = {RegistroHorasMaquinasModel.class, EncarregadoModel.class}, version = 2)
+@Database(entities = {RegistroHorasMaquinasModel.class, EncarregadoModel.class}, version = 3)
 public abstract class AppDatabase extends RoomDatabase {
     public abstract RegistroHorasMaquinasDAO registroHorasMaquinasDao();
     public abstract EncarregadoDAO encarregadoDAO();
