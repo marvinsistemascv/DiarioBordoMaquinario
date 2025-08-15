@@ -100,7 +100,6 @@ public class MainActivity extends AppCompatActivity {
             MediaPlayer mp = MediaPlayer.create(this, R.raw.button_click);
             mp.setOnCompletionListener(MediaPlayer::release);
             mp.start();
-
             Intent it = new Intent(this, QrScannerActivity.class);
             qrLauncher.launch(it);
         });
